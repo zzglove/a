@@ -1,0 +1,175 @@
+import java.io.IOException;
+import java.util.Scanner;
+
+ class Node<E>{
+    public E data;//数据域
+    public Node next;//后指针
+    public Node previous;//前指针
+
+    public Node(E data) {
+        this.data = data;
+        this.next = null;
+        this.previous = null;
+    }
+    //显示该结点的数据
+    public void display() {
+        System.out.print( data + " ");
+    }
+}
+
+public class Main<E> {
+        Node<E> Header = new Node<E>(null);
+    public static Node head = null;//表头
+    public static int length = 0;
+
+    //在链表头部添加结点
+    public static <M> void addHead(M data) {
+        Node newNode = new Node(data);
+        if (head != null) {
+            newNode.next = head;
+            head.previous = newNode;
+        }
+        head = newNode;//如果链表为空，增加新结点
+        length++;
+    }
+    //遍历链表
+    public static void printOrderNode() {
+        if(head == null) {
+            System.out.println("空表");
+        }
+        Node curNode = head;
+        while (curNode != null) {
+            curNode.display();
+            curNode = curNode.next;
+        }
+        System.out.println();
+    }
+
+    //翻转遍历链表
+    public static void printReverseNode() {
+        if(head == null) {
+            System.out.println("空表");
+        }
+        Node curNode = head;
+        while (curNode.next != null) {
+            curNode = curNode.next;
+        }
+        while (curNode != null) {
+            curNode.display();
+            curNode = curNode.previous;
+        }
+        System.out.println();
+    }
+
+    //在指定位置插入结点
+    public static   <M> void insertList(M data, int index) {
+        Node<M> newNode = new Node<M>(data);
+        if(head == null){
+            head = newNode;//链表为空，插入
+        }
+        if(index > length+1 || index < 1) {
+            System.out.println("结点插入的位置不存在，可插入的位置为1到"+(length+1));
+        }
+        if(index == 1) {
+            newNode.next = head;
+            head.previous = newNode;
+            head = newNode;//在链表开头插入
+        } else{              //在链表中间或尾部插入
+            Node preNode = head;
+            int count = 1;
+            while(count < index-1) {
+                preNode = preNode.next;
+                count++;
+            }
+            Node curNode = preNode.next;
+            newNode.next = curNode;
+            newNode.previous = preNode;
+            preNode.next = newNode;
+            if(curNode != null) {
+                curNode.previous = newNode;
+            }
+        }
+        length++;
+    }
+
+    //在指定位置删除结点
+    public static void deleteList(int index) {
+        if(index > length || index < 1) {
+            System.out.println("结点删除的位置不存在，可删除的位置为1到"+length);
+        }
+        if(index == 1) {
+            Node curNode = head;
+            head = curNode.next;
+            head.previous = null;
+            length--;
+        } else{
+            Node preNode = head;
+            int count = 1;
+            while(count < index-1) {
+                preNode = preNode.next;
+                count++;
+            }
+            Node curNode = preNode.next;
+            Node laterNode = curNode.next;
+            preNode.next = laterNode;
+            if(laterNode != null) {  //若被删除结点的后继结点不是null结点，那么设置其前驱结点
+                laterNode.previous = preNode;//指针指向被删除结点的前驱结点
+            }
+            length--;
+        }
+    }
+
+
+
+    //获取指定位置的数据
+    public static void getIndexData(int index) {
+        if(head == null){
+            System.out.println("空表");
+        }
+        if(index > length || index < 1) {
+            System.out.println("结点位置不存在，可获取的位置为1到"+length);
+        }
+        Node curNode = head;
+        int count =1;
+        while(count != index) {
+            curNode =curNode.next;
+            count++;
+        }
+        curNode.display();
+        System.out.println();
+    }
+
+
+
+    //打印链表
+    public static void printList(){
+        Node tmp = head;
+        while(tmp != null){
+            System.out.print(tmp.data + " ");
+            tmp = tmp.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String []args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            int s = sc.nextInt();
+            if(s == 0) {
+                break;
+            }else {
+                addHead(s);
+            }
+        }
+
+        printList();
+        printReverseNode();
+        printList();
+        printOrderNode();
+        Scanner in = new Scanner(System.in);
+        int index = sc.nextInt();
+        int data = sc.nextInt();
+        insertList(data, index);
+        printList();
+    }
+}

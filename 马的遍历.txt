@@ -1,0 +1,38 @@
+import java.util.Scanner;
+
+public class s {
+    static int[] fx = {1, 2, 2, 1, -1, -2, -2, -1};
+    static int[] fy = {2, 1, -1, -2, -2, -1, 1, 2};
+    public static void main(String[] args) {
+
+        int[] fx = {1, 2, 2, 1, -1, -2, -2, -1};
+        int[] fy = {2, 1, -1, -2, -2, -1, 1, 2};
+        int [][] a =new int [401][401];
+        Scanner sc=new Scanner(System.in);
+        int c =sc.nextInt();
+        int b=sc.nextInt();
+        df(c,b,2);
+        
+
+    }
+
+        public static void df(int a, int b, int sum){
+            int x, y;
+            int[][] array = new int[a][b];
+            array[a][b] = sum;
+            for (int i = 0; i < 8; i++) {
+                x = a + fx[i];
+                y = b + fy[i];
+                if (cheak(x, y) && (sum + 1 < array[x][y])||array[x][y]==-1){
+                    df(x,y,sum+1);
+                }
+            }
+        } public static boolean cheak(int x, int y){
+        int [][] a =new int [401][401];
+        if (x >= 0 && x < 5 && y >= 0 && y <= 4 && a[x][y] == 0)
+                return true;
+            else
+                return false;
+
+    }
+    }
